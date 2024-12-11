@@ -58,7 +58,7 @@ products.forEach((product)=>{
             <img class="product-rating-stars"
               src="images/ratings/rating-${product.rating.stars*10}.png">
             <div class="product-rating-count link-primary">
-              ${product.rating.numUsers}
+              ${product.rating.count}
             </div>
           </div>
 
@@ -88,12 +88,46 @@ products.forEach((product)=>{
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary">
+          <button class="add-to-cart-button button-primary"
+          data-product-id="${product.id}">
+          
             Add to Cart
           </button>
         </div>`;
   productsHTML+=html;
 })
+//data-attribute of HTML
+//-is simply another attribute but starts with data
+//written in kebab case
+//
 console.log(productsHTML);
 
 document.querySelector('.products-grid').innerHTML=productsHTML;
+document.querySelectorAll('.add-to-cart-button')
+  .forEach((button)=>{
+    button.addEventListener('click',()=>{
+
+      // const productName=button.dataset.productName;
+      const productId=button.dataset.productId;
+      console.log(button.dataset);
+
+      let isInCart=false;
+
+      cart.forEach((item)=>{
+        if(item.productId === productId)
+        {
+          item.quantity++;
+          isInCart=true;
+        }
+      })
+
+      if(!isInCart)
+      {
+        cart.push({
+          productId,
+          quantity:1
+        });
+      }
+      console.log(cart);
+  })
+});

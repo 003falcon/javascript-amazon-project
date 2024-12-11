@@ -151,25 +151,6 @@ const products = [
     ]
   },
   {
-    id: "5968897c-4d27-4872-89f6-5bcb052746d7",
-    imageLink: "images/products/women-chiffon-beachwear-coverup-black.jpg",
-    name: "Women's Chiffon Beachwear Cover Up - Black",
-    rating: {
-      stars: 4.5,
-      count: 235
-    },
-    priceCents: 2070,
-    keywords: [
-      "robe",
-      "swimsuit",
-      "swimming",
-      "bathing",
-      "apparel"
-    ],
-    type: "clothing",
-    sizeChartLink: "images/clothing-size-chart.png"
-  },
-  {
     id: "aad29d11-ea98-41ee-9285-b916638cac4a",
     imageLink: "images/products/round-sunglasses-black.jpg",
     name: "Round Sunglasses",
@@ -213,21 +194,6 @@ const products = [
       "bedroom",
       "curtains",
       "home"
-    ]
-  },
-  {
-    id: "82bb68d7-ebc9-476a-989c-c78a40ee5cd9",
-    imageLink: "images/products/men-slim-fit-summer-shorts-gray.jpg",
-    name: "Men's Slim-Fit Summer Shorts",
-    rating: {
-      stars: 4,
-      count: 160
-    },
-    priceCents: 1699,
-    keywords: [
-      "shorts",
-      "apparel",
-      "mens"
     ]
   },
   {
