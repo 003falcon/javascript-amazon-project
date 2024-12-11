@@ -66,8 +66,8 @@ products.forEach((product)=>{
             $${(product.priceCents/100).toFixed(2)}
           </div>
 
-          <div class="product-quantity-container">
-            <select>
+          <div class="product-quantity-container ">
+            <select class="js-quantity-selector-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -100,23 +100,27 @@ products.forEach((product)=>{
 //-is simply another attribute but starts with data
 //written in kebab case
 //
-console.log(productsHTML);
+// console.log(productsHTML);
 
 document.querySelector('.products-grid').innerHTML=productsHTML;
+
 document.querySelectorAll('.add-to-cart-button')
   .forEach((button)=>{
     button.addEventListener('click',()=>{
 
       // const productName=button.dataset.productName;
       const productId=button.dataset.productId;
-      console.log(button.dataset);
+      // console.log(button.dataset);
+      let qtySelected = document.querySelector(`.js-quantity-selector-${productId}`).value;
+      qtySelected=Number(qtySelected);
+      // console.log( typeof qtySelected);
 
       let isInCart=false;
 
       cart.forEach((item)=>{
         if(item.productId === productId)
         {
-          item.quantity++;
+          item.quantity+=qtySelected;
           isInCart=true;
         }
       })
@@ -125,7 +129,7 @@ document.querySelectorAll('.add-to-cart-button')
       {
         cart.push({
           productId,
-          quantity:1
+          quantity:qtySelected
         });
       }
 
