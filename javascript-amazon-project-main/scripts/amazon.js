@@ -41,6 +41,7 @@
 
 // ]
 import {cart} from '../data/cart.js'
+import {products} from '../data/products.js'
 //to add alias write in brackets as cart as myCart
 // modules - work only on LiveServer and not when the main html file is opened
 //         -removes the issue of loading script tags in a specified order
