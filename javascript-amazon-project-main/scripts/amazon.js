@@ -40,7 +40,7 @@
 //   }
 
 // ]
-import {cart} from '../data/cart.js'
+import {cart,addProductToCart} from '../data/cart.js'
 import {products} from '../data/products.js'
 //to add alias write in brackets as cart as myCart
 // modules - work only on LiveServer and not when the main html file is opened
@@ -112,43 +112,11 @@ document.querySelector('.products-grid').innerHTML=productsHTML;
 
 const addedMsgsTimeoutId = {};
 
-document.querySelectorAll('.add-to-cart-button')
-  .forEach((button)=>{
-    button.addEventListener('click',()=>{
 
-      // const productName=button.dataset.productName;
-      const {productId}=button.dataset;
-      // console.log(button.dataset);
-      let qtySelected = document.querySelector(`.js-quantity-selector-${productId}`).value;
-      qtySelected=Number(qtySelected);
-      // console.log( typeof qtySelected);
 
-      let isInCart=false;
-
-      cart.forEach((item)=>{
-        if(item.productId === productId)
-        {
-          item.quantity+=qtySelected;
-          isInCart=true;
-        }
-      })
-
-      if(!isInCart)
-      {
-        cart.push({
-          productId,
-          quantity:qtySelected
-        });
-      }
-
-      let totalQty=0;
-      cart.forEach((item)=>{
-        totalQty+=item.quantity
-      });
-
-      document.querySelector('.cart-quantity').innerText=totalQty;
-      // console.log(cart);
-      let addedMsg =document.querySelector(`.js-added-${productId}`);
+function addedMsgDisplay(productId)
+{
+  let addedMsg =document.querySelector(`.js-added-${productId}`);
       // console.log(addedMsg.classList);
       addedMsg.classList.add('isAdded');
 
@@ -162,6 +130,34 @@ document.querySelectorAll('.add-to-cart-button')
         },2000);
       
       addedMsgsTimeoutId[productId]=timeoutId;
+}
+
+function displayCurrentCartQty()
+{
+  
+  let totalQty=0;
+  cart.forEach((cartItem)=>{
+    totalQty+=cartItem.quantity
+  });
+
+  document.querySelector('.cart-quantity').innerText=totalQty;
+  // console.log(cart);
+}
+document.querySelectorAll('.add-to-cart-button')
+  .forEach((button)=>{
+    button.addEventListener('click',()=>{
+
+      // const productName=button.dataset.productName;
+      const {productId}=button.dataset;
+      // console.log(button.dataset);
+      let qtySelected = document.querySelector(`.js-quantity-selector-${productId}`).value;
+      qtySelected=Number(qtySelected);
+      // console.log( typeof qtySelected);
+
+      addProductToCart(productId,qtySelected);
+      displayCurrentCartQty();
+      addedMsgDisplay(productId);
+      
       
     })
     
