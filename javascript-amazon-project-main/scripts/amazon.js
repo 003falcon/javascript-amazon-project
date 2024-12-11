@@ -128,6 +128,13 @@ document.querySelectorAll('.add-to-cart-button')
           quantity:1
         });
       }
-      console.log(cart);
+
+      let totalQty=0;
+      cart.forEach((item)=>{
+        totalQty+=item.quantity
+      });
+
+      document.querySelector('.cart-quantity').innerText=totalQty;
+      // console.log(cart);
   })
 });
