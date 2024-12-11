@@ -40,6 +40,11 @@
 //   }
 
 // ]
+import {cart} from '../data/cart.js'
+//to add alias write in brackets as cart as myCart
+// modules - work only on LiveServer and not when the main html file is opened
+//         -removes the issue of loading script tags in a specified order
+//         -helps organize our code
 
 let productsHTML='';
 products.forEach((product)=>{
@@ -83,7 +88,7 @@ products.forEach((product)=>{
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -104,12 +109,14 @@ products.forEach((product)=>{
 
 document.querySelector('.products-grid').innerHTML=productsHTML;
 
+const addedMsgsTimeoutId = {};
+
 document.querySelectorAll('.add-to-cart-button')
   .forEach((button)=>{
     button.addEventListener('click',()=>{
 
       // const productName=button.dataset.productName;
-      const productId=button.dataset.productId;
+      const {productId}=button.dataset;
       // console.log(button.dataset);
       let qtySelected = document.querySelector(`.js-quantity-selector-${productId}`).value;
       qtySelected=Number(qtySelected);
@@ -140,5 +147,21 @@ document.querySelectorAll('.add-to-cart-button')
 
       document.querySelector('.cart-quantity').innerText=totalQty;
       // console.log(cart);
-  })
-});
+      let addedMsg =document.querySelector(`.js-added-${productId}`);
+      // console.log(addedMsg.classList);
+      addedMsg.classList.add('isAdded');
+
+      const prevTimeoutId=addedMsgsTimeoutId[productId];
+      if(prevTimeoutId)
+      {
+        clearTimeout(prevTimeoutId);
+      }
+      timeoutId=setTimeout(()=>{
+          addedMsg.classList.remove('isAdded');
+        },2000);
+      
+      addedMsgsTimeoutId[productId]=timeoutId;
+      
+    })
+    
+  });

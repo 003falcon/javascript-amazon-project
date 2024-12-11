@@ -622,5 +622,34 @@ const products = [
       "apparel",
       "mens"
     ]
+  },
+  {
+    id: "u43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+    imageLink: "images/products/umbrella.jpg",
+    name: "WaterProof Aesthetic Comfortable Umbrella",
+    rating: {
+      stars: 4,
+      count: 67
+    },
+    priceCents: 3090,
+    keywords: [
+      "umbrella",
+      "rain",
+    ]
+  },
+  {
+    id: "b3638ce-6aa0-4b85-b27f-e1d07eb678c6",
+    imageLink: "images/products/backpack.jpg",
+    name: "Back2School Large Durable Backpack",
+    rating: {
+      stars: 4.5,
+      count: 125
+    },
+    priceCents: 4590,
+    keywords: [
+      "backpack",
+      "bag",
+      "schoolbag"
+    ]
   }
 ];
