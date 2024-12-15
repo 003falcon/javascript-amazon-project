@@ -1,1 +1,1 @@
-Practising JS . 
+Understanding EcmaScript (aka JavaScript)😁 . 
