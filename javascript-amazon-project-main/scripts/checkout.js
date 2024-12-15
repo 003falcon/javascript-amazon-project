@@ -1,7 +1,12 @@
+//named exports
 import {cart,
    removeFromCart,calculateCartQty, updateCart} from '../data/cart.js'
 import { products } from '../data/products.js';
 import {formatCurrency} from './utils/money.js';
+// default export - no curly braces required
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
+import {deliveryOptions} from '../data/deliveryOptions.js'
+
 
 let cartSummaryHtml=''
 cart.forEach((cartItem)=> {
@@ -12,11 +17,20 @@ cart.forEach((cartItem)=> {
     if(product.id===productId)
       matchingProduct=product;
   })
+  let deliveryOption;
+  const todaysDate=dayjs();
+  
+  deliveryOptions.forEach((option)=>{
+    if(option.id===cartItem.deliveryOptionsId)
+      deliveryOption=option;
+  });
+  const deliveryDate=todaysDate.add(deliveryOption.deliveryDays,'days');
+  const formattedDate=deliveryDate.format(('dddd, MMM D'));
   const html=
   `
   <div class="cart-item-container js-cart-item-container-${productId}">
     <div class="delivery-date">
-      Delivery date: Tuesday, June 21
+      Delivery date: ${formattedDate}
     </div>
 
     <div class="cart-item-details-grid">
@@ -50,55 +64,50 @@ cart.forEach((cartItem)=> {
         <div class="delivery-options-title">
           Choose a delivery option:
         </div>
-        <div class="delivery-option">
-          <input type="radio" checked
-            class="delivery-option-input"
-            name="delivery-option-${productId}">
-          <div>
-            <div class="delivery-option-date">
-              Tuesday, June 21
-            </div>
-            <div class="delivery-option-price">
-              FREE Shipping
-            </div>
-          </div>  
-        </div>
-        <div class="delivery-option">
-          <input type="radio"
-            class="delivery-option-input"
-            name="delivery-option-${productId}">
-          <div>
-            <div class="delivery-option-date">
-              Wednesday, June 15
-            </div>
-            <div class="delivery-option-price">
-              $4.99 - Shipping
-            </div>
-          </div>
-        </div>
-        <div class="delivery-option">
-          <input type="radio"
-            class="delivery-option-input"
-            name="delivery-option-${productId}">
-          <div>
-            <div class="delivery-option-date">
-              Monday, June 13
-            </div>
-            <div class="delivery-option-price">
-              $9.99 - Shipping
-            </div>
-          </div>
-        </div>
+        ${deliveryOptionsHTML(matchingProduct,cartItem)}
       </div>
     </div>
   </div>
   
   `;
   cartSummaryHtml+=html;
+});
+
+function deliveryOptionsHTML(matchingProduct,cartItem)
+{
+  const todaysDate=dayjs();
+  let html ='';
   
+  deliveryOptions.forEach((deliveryOption)=>{
+
+    // console.log(todaysDate);
+    const deliveryDate=todaysDate.add(deliveryOption.deliveryDays,'days');
+    const formattedDate=deliveryDate.format(('dddd, MMM D'));
+    const priceString= deliveryOption.priceCents===0
+    ? 'FREE -'
+    : `$${formatCurrency(deliveryOption.priceCents)} -`;
   
 
-});
+    const isChecked=(deliveryOption.id === cartItem.deliveryOptionsId);
+    html+=`
+    <div class="delivery-option">
+      <input type="radio"
+        ${isChecked ? 'checked' : ''}
+        class="delivery-option-input"
+        name="delivery-option-${matchingProduct.id}">
+      <div>
+        <div class="delivery-option-date">
+          ${formattedDate}
+        </div>
+        <div class="delivery-option-price">
+          ${priceString} Shipping
+        </div>
+      </div>
+    </div>
+    `;
+    })
+    return html;
+}
 document.querySelector('.js-order-summary').innerHTML= cartSummaryHtml;
 
 function updateCartQty()
@@ -138,11 +147,19 @@ document.querySelectorAll('.save-quantity-link').forEach((button)=>{
     let updatedValue=document.querySelector(`.js-quantity-input-${curProdId}`).value;
     updatedValue=Number(updatedValue);
     // console.log(curProdId,updatedValue,typeof updatedValue);
-    
+    if(updatedValue<0 && updatedValue>=1000)
+    {
+      alert(`Please enter valid value in the range 0 to 1000 both exclusive`)
+      //early return
+      return;
+    }
+  
     updateCart(curProdId,updatedValue);
     //setting the updated value
     document.querySelector(`.quantity-label-${curProdId}`).innerHTML=updatedValue;
     document.querySelector(`.js-cart-item-container-${curProdId}`).classList.remove('is-editing-quantity');
     updateCartQty();
+    
+   
   });
 });
