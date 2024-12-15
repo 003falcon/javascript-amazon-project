@@ -1,6 +1,7 @@
 //named exports
 import {cart,
-   removeFromCart,calculateCartQty, updateCart} from '../data/cart.js'
+   removeFromCart,calculateCartQty, updateCart,
+   updateDeliveryOption} from '../data/cart.js'
 import { products } from '../data/products.js';
 import {formatCurrency} from './utils/money.js';
 // default export - no curly braces required
@@ -90,7 +91,9 @@ function deliveryOptionsHTML(matchingProduct,cartItem)
 
     const isChecked=(deliveryOption.id === cartItem.deliveryOptionsId);
     html+=`
-    <div class="delivery-option">
+    <div class="delivery-option js-delivery-option"
+        data-product-id=${matchingProduct.id}
+        data-delivery-options-id=${deliveryOption.id}>
       <input type="radio"
         ${isChecked ? 'checked' : ''}
         class="delivery-option-input"
@@ -135,7 +138,7 @@ document.querySelectorAll('.js-update-link').forEach((button)=>{
     // console.log(curProdId);
     document.querySelector(`.js-cart-item-container-${curProdId}`).classList.add('is-editing-quantity');
     
-
+    
   });
 });
 
@@ -148,18 +151,27 @@ document.querySelectorAll('.save-quantity-link').forEach((button)=>{
     updatedValue=Number(updatedValue);
     // console.log(curProdId,updatedValue,typeof updatedValue);
     if(updatedValue<0 && updatedValue>=1000)
-    {
-      alert(`Please enter valid value in the range 0 to 1000 both exclusive`)
-      //early return
-      return;
-    }
-  
-    updateCart(curProdId,updatedValue);
-    //setting the updated value
-    document.querySelector(`.quantity-label-${curProdId}`).innerHTML=updatedValue;
-    document.querySelector(`.js-cart-item-container-${curProdId}`).classList.remove('is-editing-quantity');
-    updateCartQty();
-    
-   
+      {
+        alert(`Please enter valid value in the range 0 to 1000 both exclusive`)
+        //early return
+        return;
+      }
+      
+      updateCart(curProdId,updatedValue);
+      //setting the updated value
+      document.querySelector(`.quantity-label-${curProdId}`).innerHTML=updatedValue;
+      document.querySelector(`.js-cart-item-container-${curProdId}`).classList.remove('is-editing-quantity');
+      updateCartQty();
+      
+      
+    });
   });
+  
+  document.querySelectorAll('.js-delivery-option').forEach((button)=>{
+    button.addEventListener('click',()=>{
+    const {productId,deliveryOptionsId}=button.dataset;
+    console.log(productId,deliveryOptionsId)
+    updateDeliveryOption(productId,deliveryOptionsId);
+  });
+
 });
