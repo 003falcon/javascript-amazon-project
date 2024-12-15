@@ -42,6 +42,7 @@
 // ]
 import {cart,addProductToCart} from '../data/cart.js'
 import {products} from '../data/products.js'
+import { calculateCartQty } from '../data/cart.js';
 import {formatCurrency} from './utils/money.js';
 //to add alias write in brackets as cart as myCart
 // modules - work only on LiveServer and not when the main html file is opened
@@ -110,10 +111,11 @@ products.forEach((product)=>{
 // console.log(productsHTML);
 
 document.querySelector('.products-grid').innerHTML=productsHTML;
+displayCurrentCartQty();
 
 const addedMsgsTimeoutId = {};
 
-
+ 
 
 function addedMsgDisplay(productId)
 {
@@ -126,7 +128,7 @@ function addedMsgDisplay(productId)
       {
         clearTimeout(prevTimeoutId);
       }
-      timeoutId=setTimeout(()=>{
+      const timeoutId=setTimeout(()=>{
           addedMsg.classList.remove('isAdded');
         },2000);
       
@@ -135,13 +137,9 @@ function addedMsgDisplay(productId)
 
 function displayCurrentCartQty()
 {
-  
-  let totalQty=0;
-  cart.forEach((cartItem)=>{
-    totalQty+=cartItem.quantity
-  });
-
+  let totalQty=calculateCartQty(cart);
   document.querySelector('.cart-quantity').innerText=totalQty;
+  
   // console.log(cart);
 }
 document.querySelectorAll('.add-to-cart-button')

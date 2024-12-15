@@ -52,6 +52,27 @@
 .cart-item-container {
   margin-bottom: 12px;
 }
+.quantity-input{
+  width: 30px;
+  display: none;
+}
+.save-quantity-link{
+  display: none;
+}
+
+/*this styles elements with class "quantity-input"
+ inside an element with class "is-editing-quantity"*/
+/* .is-editing-quantity .quantity-input ,.is-editing-quantity .save-quantity-link{
+  display: initial;
+} */
+/*above can also be written as*/
+.is-editing-quantity  {
+  .quantity-input,
+  .save-quantity-link {
+    display: initial;
+  }
+  .update-quantity-link{display: none;}
+}
 
 .payment-summary {
   padding-bottom: 5px;
@@ -115,8 +136,13 @@
   margin-bottom: 5px;
 }
 
-.product-quantity .link-primary {
-  margin-left: 3px;
+.product-quantity  {
+  .link-primary {
+margin-left: 3px;
+  }
+  .quantity-label{
+    display: none;
+  }
 }
 
 @media (max-width: 1000px) {
