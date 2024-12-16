@@ -40,9 +40,8 @@
 //   }
 
 // ]
-import {cart,addProductToCart} from '../data/cart.js'
+import {cart,addProductToCart,calculateCartQty} from '../data/cart.js'
 import {products} from '../data/products.js'
-import { calculateCartQty } from '../data/cart.js';
 import {formatCurrency} from './utils/money.js';
 //to add alias write in brackets as cart as myCart
 // modules - work only on LiveServer and not when the main html file is opened
