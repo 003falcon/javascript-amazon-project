@@ -7,6 +7,7 @@ import {formatCurrency} from '../utils/money.js';
 // default export - no curly braces required
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
 import {deliveryOptions, findDeliveryOption} from '../../data/deliveryOptions.js'
+import { paymentSummary } from './renderPaymentSummary.js';
 
 
 export default function renderOrderReview()
@@ -127,6 +128,7 @@ export default function renderOrderReview()
       // console.log(curProdId);
       document.querySelector(`.js-cart-item-container-${curProdId}`).remove();
       updateCartQty();
+      paymentSummary(); 
 
 
     })
@@ -171,8 +173,9 @@ export default function renderOrderReview()
       button.addEventListener('click',()=>{
       const {productId,deliveryOptionsId}=button.dataset;
       console.log(productId,deliveryOptionsId)
-      updateDeliveryOption(productId,deliveryOptionsId);
-      renderOrderReview();
+      updateDeliveryOption(productId,deliveryOptionsId);//update
+      renderOrderReview();//regenerate html
+      paymentSummary();
     });
 
  });
