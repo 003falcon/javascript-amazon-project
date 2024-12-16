@@ -6,7 +6,7 @@ import {findProduct} from '../../data/products.js';
 import {formatCurrency} from '../utils/money.js';
 // default export - no curly braces required
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
-import {deliveryOptions, findDeliveryOption} from '../../data/deliveryOptions.js'
+import {deliveryOptions, findDeliveryOption, getNumberOfDays} from '../../data/deliveryOptions.js'
 import { paymentSummary } from './renderPaymentSummary.js';
 
 
@@ -24,9 +24,8 @@ export default function renderOrderReview()
     let deliveryOption=findDeliveryOption(deliveryOptions,cartItem);
 
     const todaysDate=dayjs();
-    
-    
-    const deliveryDate=todaysDate.add(deliveryOption.deliveryDays,'days');
+    const actualNoOfDays=getNumberOfDays(deliveryOption);
+    const deliveryDate=todaysDate.add(actualNoOfDays,'days');
     const formattedDate=deliveryDate.format(('dddd, MMM D'));
     const html=
     `
@@ -82,8 +81,9 @@ export default function renderOrderReview()
     
     deliveryOptions.forEach((deliveryOption)=>{
 
-      // console.log(todaysDate);
-      const deliveryDate=todaysDate.add(deliveryOption.deliveryDays,'days');
+    
+      const actualNoOfDays=getNumberOfDays(deliveryOption);
+      const deliveryDate=todaysDate.add(actualNoOfDays,'days');
       const formattedDate=deliveryDate.format(('dddd, MMM D'));
       const priceString= deliveryOption.priceCents===0
       ? 'FREE -'
@@ -126,7 +126,8 @@ export default function renderOrderReview()
       const curProdId=button.dataset.productId;
       removeFromCart(curProdId);
       // console.log(curProdId);
-      document.querySelector(`.js-cart-item-container-${curProdId}`).remove();
+      // document.querySelector(`.js-cart-item-container-${curProdId}`).remove();
+      renderOrderReview();
       updateCartQty();
       paymentSummary(); 
 
@@ -161,9 +162,10 @@ export default function renderOrderReview()
         
         updateCart(curProdId,updatedValue);
         //setting the updated value
-        document.querySelector(`.quantity-label-${curProdId}`).innerHTML=updatedValue;
         document.querySelector(`.js-cart-item-container-${curProdId}`).classList.remove('is-editing-quantity');
+        renderOrderReview();
         updateCartQty();
+        paymentSummary();
         
         
       });
