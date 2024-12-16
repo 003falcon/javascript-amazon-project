@@ -19,7 +19,6 @@ export default function renderOrderReview()
     const productId = cartItem.productId;
 
     const matchingProduct =findProduct(productId);
-    // console.log(matchingProduct);
 
     let deliveryOption=findDeliveryOption(deliveryOptions,cartItem);
 
@@ -126,7 +125,6 @@ export default function renderOrderReview()
       const curProdId=button.dataset.productId;
       removeFromCart(curProdId);
       // console.log(curProdId);
-      // document.querySelector(`.js-cart-item-container-${curProdId}`).remove();
       renderOrderReview();
       updateCartQty();
       paymentSummary(); 
