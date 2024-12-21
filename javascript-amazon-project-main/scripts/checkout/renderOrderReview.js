@@ -28,7 +28,8 @@ export default function renderOrderReview()
     const formattedDate=deliveryDate.format(('dddd, MMM D'));
     const html=
     `
-    <div class="cart-item-container js-cart-item-container-${productId}">
+    <div class="cart-item-container 
+    js-cart-item-container-test js-cart-item-container-${productId}">
       <div class="delivery-date">
         Delivery date: ${formattedDate}
       </div>
@@ -44,7 +45,7 @@ export default function renderOrderReview()
           <div class="product-price">
             $${formatCurrency(matchingProduct.priceCents)}
           </div>
-          <div class="product-quantity">
+          <div class="product-quantity js-product-quantity-test-${productId}">
             <span>
               Quantity: <span class="quantity-label-${productId}">${cartItem.quantity}</span>
             </span>
@@ -54,7 +55,7 @@ export default function renderOrderReview()
             </span>
             <input class="quantity-input js-quantity-input-${productId}">
             <span class="save-quantity-link link-primary" data-product-id="${productId}">Save</span>
-            <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${productId}">
+            <span class="delete-quantity-link link-primary js-delete-link js-delete-link-${productId}" data-product-id="${productId}">
               Delete
             </span>
           </div>
@@ -113,12 +114,12 @@ export default function renderOrderReview()
   }
   document.querySelector('.js-order-summary').innerHTML= cartSummaryHtml;
 
-  function updateCartQty()
-  {
-    let totalQty=calculateCartQty(cart);
-    document.querySelector('.js-item-qty').innerHTML=`${totalQty} items`;
-  }
-  updateCartQty();
+  // function updateCartQty()
+  // {
+  //   let totalQty=calculateCartQty(cart);
+  //   document.querySelector('.js-item-qty').innerHTML=`${totalQty} items`;
+  // }
+  // updateCartQty();
   document.querySelectorAll('.js-delete-link').forEach((button)=>{
     button.addEventListener('click',()=>{
 
@@ -126,7 +127,7 @@ export default function renderOrderReview()
       removeFromCart(curProdId);
       // console.log(curProdId);
       renderOrderReview();
-      updateCartQty();
+      // updateCartQty();
       paymentSummary(); 
 
 
@@ -158,11 +159,11 @@ export default function renderOrderReview()
           return;
         }
         
-        updateCart(curProdId,updatedValue);
+        // updateCart(curProdId,updatedValue);
         //setting the updated value
         document.querySelector(`.js-cart-item-container-${curProdId}`).classList.remove('is-editing-quantity');
         renderOrderReview();
-        updateCartQty();
+        // updateCartQty();
         paymentSummary();
         
         
