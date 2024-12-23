@@ -10,6 +10,12 @@ describe('Test Suite: Format Currency',()=>{
   it('able to round cents to nearest dollars',()=>{
     expect(formatCurrency(1998.5)).toEqual('19.99');
   });
+  it('able to detect negative numbers',()=>{
+    expect(formatCurrency(-459.43)).toEqual('-4.59');
+  })
+  it('rounds down to nearest cent',()=>{
+    expect(formatCurrency(2000.4)).toEqual('20.00');
+  })
 
   
 });
