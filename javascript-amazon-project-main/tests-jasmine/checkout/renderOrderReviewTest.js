@@ -56,5 +56,15 @@ describe('test Suite:order review',()=>{
     expect(cart.length).toEqual(1);
     expect(cart[0].productId).toEqual(prodId2);
   });
+  it('displays the name of products',()=>{
+    expect(document.querySelector(`.js-product-name-test-${prodId1}`).innerText).toContain('Black and Gray Athletic Cotton Socks - 6 Pairs');
+    expect(document.querySelector(`.js-product-name-test-${prodId2}`).innerText).toContain('Intermediate Size Basketball');
+
+  })
+  it('displays $ sign before price',()=>{
+    expect(document.querySelector(`.js-product-price-test-${prodId1}`).innerText).toContain('$');
+    expect(document.querySelector(`.js-product-price-test-${prodId2}`).innerText).toContain('$');
+
+  })
       
 });

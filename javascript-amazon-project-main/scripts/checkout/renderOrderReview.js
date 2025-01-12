@@ -39,10 +39,10 @@ export default function renderOrderReview()
           src=${matchingProduct.imageLink}>
 
         <div class="cart-item-details">
-          <div class="product-name">
+          <div class="product-name js-product-name-test-${productId}">
             ${matchingProduct.name}
           </div>
-          <div class="product-price">
+          <div class="product-price js-product-price-test-${productId}">
             $${formatCurrency(matchingProduct.priceCents)}
           </div>
           <div class="product-quantity js-product-quantity-test-${productId}">
@@ -114,12 +114,6 @@ export default function renderOrderReview()
   }
   document.querySelector('.js-order-summary').innerHTML= cartSummaryHtml;
 
-  // function updateCartQty()
-  // {
-  //   let totalQty=calculateCartQty(cart);
-  //   document.querySelector('.js-item-qty').innerHTML=`${totalQty} items`;
-  // }
-  // updateCartQty();
   document.querySelectorAll('.js-delete-link').forEach((button)=>{
     button.addEventListener('click',()=>{
 
